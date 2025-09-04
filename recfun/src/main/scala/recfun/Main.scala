@@ -1,6 +1,8 @@
 package recfun
 import common._
 
+import scala.annotation.tailrec
+
 object Main {
   def main(args: Array[String]) {
     println("Pascal's Triangle")
@@ -22,7 +24,23 @@ object Main {
   /**
    * Exercise 2
    */
-  def balance(chars: List[Char]): Boolean = ???
+  def balance(chars: List[Char]): Boolean = {
+    @tailrec
+    def processHead(chars: List[Char], openingNum: Int): Boolean = {
+      if (openingNum < 0) false
+      else if (chars.isEmpty) openingNum == 0
+      else {
+        val newOpeningNum = {
+          if (chars.head == '(') openingNum + 1
+          else if (chars.head == ')') openingNum - 1
+          else openingNum
+        }
+        processHead(chars.tail, newOpeningNum)
+      }
+    }
+
+    processHead(chars, 0)
+  }
 
   /**
    * Exercise 3
