@@ -49,8 +49,8 @@ object Main {
     def countChangeRecursive(money: Int, remainingCoins: List[Int]): Int = {
       if (money == 0) 1
       else if (money < 0) 0
-      else if (coins.isEmpty) 0
-      else countChange(money - coins.head, coins) + countChange(money, remainingCoins.tail)
+      else if (remainingCoins.isEmpty) 0
+      else countChangeRecursive(money - remainingCoins.head, coins) + countChangeRecursive(money, remainingCoins.tail)
     }
 
     countChangeRecursive(money, coins)
