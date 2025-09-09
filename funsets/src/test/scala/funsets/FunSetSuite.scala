@@ -140,4 +140,36 @@ class FunSetSuite extends FunSuite {
       assert(!contains(s, -1), "Filter")
     }
   }
+
+  test("forall - s4 is non-negative integer") {
+    new TestSets {
+      assert(forall(s4, x => x >= 0))
+    }
+  }
+
+  test("forall - s4 is not positive integer") {
+    new TestSets {
+      assert(!forall(s4, x => x > 0))
+    }
+  }
+
+  test("exists - s4 has 0") {
+    new TestSets {
+      assert(exists(s4, x => x == 0))
+    }
+  }
+
+  test("exists - s4 doesn't have -1") {
+    new TestSets {
+      assert(!exists(s4, x => x == -1))
+    }
+  }
+
+  test("map - doubled s4 has only even") {
+    new TestSets {
+      val s = map(s4, x => x * 2)
+      assert(forall(s, x => x % 2 == 0))
+      assert(!exists(s, x => x == 1))
+    }
+  }
 }
