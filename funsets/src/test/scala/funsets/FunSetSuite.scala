@@ -77,6 +77,8 @@ class FunSetSuite extends FunSuite {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
+    val s4: Set = x => x >= 0 && x <= 100
+    val s5: Set = x => x >= 50 && x <= 150
   }
 
   /**
@@ -108,6 +110,34 @@ class FunSetSuite extends FunSuite {
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+    }
+  }
+
+  test("intersect contains only intersected elements") {
+    new TestSets {
+      val s = intersect(s4, s5)
+      assert(contains(s, 50), "Intersect")
+      assert(contains(s, 100), "Intersect")
+      assert(!contains(s, 25), "Intersect")
+      assert(!contains(s, 125), "Intersect")
+    }
+  }
+
+  test("diff contains elements in a, not in b") {
+    new TestSets {
+      val s = diff(s4, s5)
+      assert(contains(s, 0), "Diff")
+      assert(!contains(s, 50), "Diff")
+      assert(!contains(s, 150), "Diff")
+    }
+  }
+
+  test("filter contains elements satisfies filter only") {
+    new TestSets {
+      val s = filter(s4, x => x <= 50)
+      assert(contains(s, 50), "Filter")
+      assert(!contains(s, 75), "Filter")
+      assert(!contains(s, -1), "Filter")
     }
   }
 }
