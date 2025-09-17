@@ -148,24 +148,9 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   }
 
   def mostRetweeted: Tweet = {
-    val maxBetweenLeftAndElem = {
-      try {
-        val leftMost = left.mostRetweeted
-        if (leftMost.retweets > elem.retweets) leftMost
-        else elem
-      }
-      catch {
-        case _: java.util.NoSuchElementException => elem
-      }
-    }
-    try {
-      val rightMost = right.mostRetweeted
-      if (rightMost.retweets > maxBetweenLeftAndElem.retweets) rightMost
-      else maxBetweenLeftAndElem
-    }
-    catch {
-      case _: java.util.NoSuchElementException => elem
-    }
+    val leftMost = try left.mostRetweeted catch { case _: NoSuchElementException => elem }
+    val rightMost = try right.mostRetweeted catch { case _: NoSuchElementException => elem }
+    List(elem, leftMost, rightMost).maxBy(tweet => tweet.retweets)
   }
 
   def descendingByRetweet: TweetList = {
